@@ -58,6 +58,7 @@ export default function FormDialog() {
      else {
 
     alert('Email inválido!')
+    
 
     }    
   }catch (err) {
