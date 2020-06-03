@@ -1,0 +1,30 @@
+.imgPremio {
+    max-width: 500px;  
+    width: auto;
+}
+
+.uf {
+    width: 15%;
+}
+
+.cadastro-container{
+    width: 100%;
+    max-width: 1050px;
+    height: 100%;
+    margin: 5% auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffe5ac;
+    border-radius: 8px;
+    
+}
+
+.cadastro-container section.form {
+    width: 100%;
+    max-width: 300px;
+    margin-right: 50px;
+    margin-left: 50px;
+    
+}
