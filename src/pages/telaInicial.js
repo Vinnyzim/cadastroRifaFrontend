@@ -94,12 +94,14 @@ const handleCloseSnackEmailInvalido = (event, reason) => {
 
           localStorage.setItem('email', localEmail)
 
+          
+
           history.push('/register')
           
 
         }).catch((err) => {
           
-          handleClickSnackEmailUsado()
+          alert(console.log(err))
          
         }) 
 
