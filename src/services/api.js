@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://cadastrorifabackend.herokuapp.com/',
+    baseURL: 'https://cadastrorifabackend.herokuapp.com',
     //baseURL: 'http://localhost:3333',
 })
 
