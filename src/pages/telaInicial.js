@@ -9,14 +9,38 @@ import { useHistory } from 'react-router-dom';
 import api from '../services/api';
 import IMG from '../img/premio.png';
 import background_herois from '../img/background_herois.jpeg';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import { makeStyles } from '@material-ui/core/styles';
+
 import './style.css';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
+
 
 
 export default function FormDialog() {
+  const classes = useStyles();
   const [email, setEmail] = useState('');
   
 
   const [open, setOpen] = useState(false);
+
+  const [openSnackEmailUsado, setOpenSnackEmailUsado] = useState(false);
+
+  const [openSnackEmailInvalido, setOpenSnackEmailInvalido] = useState(false);
+
   const history = useHistory();
   
   const handleClickOpen = () => {
@@ -27,10 +51,36 @@ export default function FormDialog() {
   };
 
 
+  const handleClickSnackEmailUsado = () => {
+    setOpenSnackEmailUsado(true);
+  };
+
+  const handleCloseSnackEmailUsado = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackEmailUsado(false);
+  };
+ 
+//
+
+const handleClickSnackEmailInvalido = () => {
+  setOpenSnackEmailInvalido(true);
+};
+
+const handleCloseSnackEmailInvalido = (event, reason) => {
+  if (reason === 'clickaway') {
+    return;
+  }
+
+  setOpenSnackEmailInvalido(false);
+};
+
   async function handleRegisterEmail(e) {
     e.preventDefault();
     
-  try {
+  
     const verifyEmail =  {email} 
     
    
@@ -38,49 +88,48 @@ export default function FormDialog() {
     
     if (regex.test(verifyEmail.email)){
 
-        const response = await api.post('verificaEmail', verifyEmail);
-
-          if(response.status === 200){
-
-            const localEmail = verifyEmail.email
-            
-            localStorage.setItem('email', localEmail)
-
-              if(localEmail !== null){
-
-                history.push('/register')
-              }
-            
+        await api.post('verificaEmail', verifyEmail).then((has) => {
           
-        }
+          const localEmail = verifyEmail.email
+
+          localStorage.setItem('email', localEmail)
+
+          history.push('/register')
+          
+
+        }).catch((err) => {
+          
+          handleClickSnackEmailUsado()
+         
+        }) 
 
      }
      else {
-
-    alert('Email inválido!')
+       
+      handleClickSnackEmailInvalido()
     
 
-    }    
-  }catch (err) {
-
-    alert('Este email já está sendo usado!')
-  }
-  }
+    } 
+  }   
+  
+  
 
 
   
   return (
+    
     <div>
+      
         <div className="cadastro-container">
           <section  className="form">
             <form>
              <h1>Chá rifa do Erick!</h1>
-            <Button variant="outlined" color="black" onClick={handleClickOpen}>
+            <Button variant="outlined"  onClick={handleClickOpen}>
             Iniciar Cadastro
           </Button>
           </form>
         </section>
-        <img src={background_herois} alt="herois"></img>
+          <img className="img-Heroi" src={background_herois} alt="herois"></img>
         </div>
       
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -113,8 +162,35 @@ export default function FormDialog() {
             Próximo
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog>     
+
+      <div className={classes.root}>
+      <Snackbar open={openSnackEmailUsado} 
+      anchorOrigin={{ vertical:'top', horizontal:'center' }}
+      autoHideDuration={2000} 
+      onClose={handleCloseSnackEmailUsado}>
+      <Alert onClose={handleCloseSnackEmailUsado} severity="error">
+      Este e-mail já foi utilizado!
+      </Alert>
+      </Snackbar>
+
+      <Snackbar open={openSnackEmailInvalido} 
+      anchorOrigin={{ vertical:'top', horizontal:'center' }}
+      autoHideDuration={2000} 
+      onClose={handleCloseSnackEmailInvalido}>
+      <Alert onClose={handleCloseSnackEmailInvalido} severity="error">
+      Email inválido!
+      </Alert>
+      </Snackbar>
       
+    </div> 
+
+
+
+
     </div>
+    
+    
+    
   );
 }

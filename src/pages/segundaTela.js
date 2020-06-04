@@ -72,21 +72,22 @@ export default function SegundaTela() {
   
 
   return (
+
     <div>
 
         <div className="cadastro-container">
           <section  className="form">
             <form>
              <h1>Chá rifa do Erick!</h1>
-            <Button variant="outlined" color="black" onClick={handleClickOpen}>
+            <Button variant="outlined"  onClick={handleClickOpen}>
             Iniciar Cadastro
           </Button>
           </form>
         </section>
-        <img src={background_herois} alt="herois"></img>
+        <img className="img-Heroi" src={background_herois} alt="herois"></img>
         </div>
-      
-      <Dialog  open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <div className="segundoForm">
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Cadastro</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -221,6 +222,7 @@ export default function SegundaTela() {
           </Button>
         </DialogActions>
       </Dialog>
+      </div>
     </div>
     
   );

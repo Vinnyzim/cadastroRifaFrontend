@@ -1,6 +1,8 @@
 .imgPremio {
     max-width: 500px;  
     width: auto;
+    
+    border-radius: 8px;
 }
 
 .uf {
@@ -27,4 +29,56 @@
     margin-right: 50px;
     margin-left: 50px;
     
+}
+
+@media only screen and (max-device-width: 900px){
+
+    
+    
+    .cadastro-container{
+        
+        width:  80%;
+        height: auto;
+        margin-right: 10%;
+        display: block;
+        align-items: center;
+        
+        background-color: #ffe5ac;
+        border-radius: 8px;
+        
+        
+        
+    }
+
+    .cadastro-container section.form {
+        
+    
+        width: 50%;
+        margin-left: 25%;
+        margin-bottom: 5%;
+
+        height: auto;
+    
+        
+    }
+    
+    .img-Heroi{
+        max-width: 100%;
+        margin-right: 50px;
+        height: auto;
+    }
+
+    .imgPremio {
+        max-width: 100%;  
+        width: auto;
+        
+        border-radius: 8px;
+    }
+
+    .segundoForm{
+        max-width: 80%; 
+        height: auto;
+    }
+
+
 }
