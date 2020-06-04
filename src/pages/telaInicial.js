@@ -101,7 +101,7 @@ const handleCloseSnackEmailInvalido = (event, reason) => {
 
         }).catch((err) => {
           
-          alert(err)
+          handleClickSnackEmailUsado()
          
         }) 
 
