@@ -121,7 +121,7 @@ const handleCloseSnackEmailInvalido = (event, reason) => {
   
   return (
     
-    <div>
+    <div className="background">
       
         <div className="cadastro-container">
           <section  className="form">
