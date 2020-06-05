@@ -8,10 +8,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from 'react-router-dom';
 import api from '../services/api';
 import IMG from '../img/premio.png';
-import background_herois from '../img/background_herois.jpeg';
+import background_herois from '../img/background_herois.png';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
+
 
 import './style.css';
 

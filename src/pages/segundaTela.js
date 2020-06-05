@@ -9,11 +9,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { useHistory } from 'react-router-dom';
 import './style.css';
 import InputMask from 'react-input-mask';
-import background_herois from '../img/background_herois.jpeg';
+import background_herois from '../img/background_herois.png';
+import axios from 'axios'
 
 import { Link}  from 'react-router-dom';
 
 import api from '../services/api'
+import { Grid } from '@material-ui/core';
 
 
 export default function SegundaTela() {
@@ -33,9 +35,36 @@ export default function SegundaTela() {
   const [complemento, setComplemento] = useState('');
   const [localidade, setLocalidade] = useState('');
   const [uf, setUF] = useState('');
+  const [bairro, setBairro] = useState('');
   const [descricao_conhece_mamae_papai, setDescMaePai] = useState('');
   const [msg_erick, setMsgErick] = useState('');
+  const [cep, setCep] = useState('');
+
   const history = useHistory();
+  
+  
+
+
+ async function apiCep (){
+
+  axios.get(`https://viacep.com.br/ws/${cep}/json/`).then(res => {
+
+    setLocalidade(res.data.localidade)
+    setUF(res.data.uf)
+    setLogradouro(res.data.logradouro)
+    setBairro(res.data.bairro)
+
+    console.log(res.data)
+  }).catch(err => {
+
+    alert(err)
+
+  }) 
+   
+  
+  }
+    
+     
   
 
   async function handleRegisterEmail(e){
@@ -44,9 +73,10 @@ export default function SegundaTela() {
     
 
     const data = {email, nome, telefone, logradouro, complemento, localidade, uf, descricao_conhece_mamae_papai, msg_erick}
-    let cep;
-    const apiViaCEP = 'https://viacep.com.br/ws/'+cep+'/json/'
-    console.log(apiViaCEP)
+
+    
+
+    
 
     try{
 
@@ -87,7 +117,7 @@ export default function SegundaTela() {
         <img className="img-Heroi" src={background_herois} alt="herois"></img>
         </div>
       <div className="segundoForm">
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={open}  aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Cadastro</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -98,9 +128,9 @@ export default function SegundaTela() {
 
             Assim que efetuar o pagamento da rifa, envie o comprovante para o <br/>e-mail karinagil18@gmail.com ou para o Whatsapp (62) 99945-0256 e você receberá a lista atualizada com os nomes dos super-heróis para escolher.<br/><br/>
 
-            Após a escolha do super-herói, você receberá a confirmação de que está participando da rifa, por meio de um voucher.
+            Após a escolha do super-herói, você receberá um voucher confirmando sua participação no "Chá Rifa do Erick".
 
-            Boa sorte e que vença o melhor super-herói!!! :D
+            Boa sorte e que vença o melhor super-herói!!!
           </DialogContentText>
         
           
@@ -115,6 +145,9 @@ export default function SegundaTela() {
             type="text"
             fullWidth
           />
+
+        
+
           <TextField 
             required
             value = {nome} onChange={e => setNome(e.target.value)}
@@ -132,51 +165,98 @@ export default function SegundaTela() {
             value = {telefone} 
             onChange={e => setTelefone(e.target.value)}
             autoFocus
-            margin="dense"
-            useRef="phone"
+            margin="dense"           
             name="phone"
             label="Telefone"
             helperText = "ex. (xx) 99999-9999"
             type="text"
             
+            
           >
             <InputMask mask="(0)9999-9999" maskChar=" "/>
           </TextField>
 
-            <TextField 
-            required
-            value = {localidade} onChange={e => setLocalidade(e.target.value)}
-            autoFocus
-            margin="dense"
-            id="localidade"
-            label="Cidade"
-            type="text"
-            fullWidth
-          />
 
-           <TextField className="uf"
-           required
-            value = {uf} onChange={e => setUF(e.target.value)}
+          <Grid>
+          <TextField className="cep"
+            required
+            value = {cep} onChange={e => setCep(e.target.value)}
+            
             autoFocus
             margin="dense"
-            id="uf"
-            label="UF"
+            id="cep"
+            label="CEP"
             type="text"
             
+            inputProps={{maxLength: 8}}
+            
           />
+          </Grid>
+          <Button  onClick={apiCep} color="primary">
+            Verificar Cep
+          </Button>
+
+          <Grid>
+            
+                <TextField className="city"
+                disabled={true}
+                value = {localidade}
+                autoFocus
+                margin="normal"
+                id="localidade"
+                label="Cidade"
+                type="text"
+                
+              />
+              
+              
+              <TextField className="uf"
+                disabled={true}
+                value = {uf} 
+                autoFocus
+                margin="normal"
+                id="uf"
+                label="UF"
+                type="text"              
+              />
+            
+          </Grid>
+          
           <TextField 
-          required
-            value = {logradouro} onChange={e => setLogradouro(e.target.value)}
+             disabled={true}
+            value = {logradouro}
             autoFocus
             margin="dense"
             id="logradouro"
-            label="Endereço"
+            label="Logradouro"
             helperText= "(caso ganhe o sorteio, o prêmio será entregue nesse endereço)"
             type="text"
             fullWidth
           />
 
-            <TextField 
+          <TextField 
+           disabled={true}
+           value = {bairro}
+            autoFocus
+            margin="dense"
+            id="bairro"
+            label="Bairro"
+            type="text"
+            
+          />
+
+          <Grid>
+          <TextField 
+            required
+            autoFocus
+            margin="dense"
+            id="numero"
+            label="Número"
+            type="text"
+            
+          />
+          </Grid>
+            <TextField className="complemento"
           
             value = {complemento} onChange={e => setComplemento(e.target.value)}
             autoFocus
@@ -184,7 +264,7 @@ export default function SegundaTela() {
             id="complemento"
             label="Complemento"
             type="text"
-            fullWidth
+            
           />
          
 
@@ -194,19 +274,12 @@ export default function SegundaTela() {
             autoFocus
             margin="dense"
             id="descMaePai"
-            label="Conhece o papai Henrique e a mamãe Karina de onde?"
+            helperText="Conhece o papai Henrique e a mamãe Karina de onde?"
             type="text"
             fullWidth
           />
-          <TextField 
-            value = {msg_erick} onChange={e => setMsgErick(e.target.value)}
-            autoFocus
-            margin="dense"
-            id="msg_erick"
-            label="Quer deixar uma mensagem para mim?"
-            type="text"
-            fullWidth
-          />
+          <h1></h1>
+         <text className="aviso">Favor verificar se todas as informações estão corretas. <br/>Você só poderá confirmar uma vez!</text>
 
         
         </DialogContent>

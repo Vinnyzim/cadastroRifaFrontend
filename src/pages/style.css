@@ -6,8 +6,13 @@
 }
 
 .uf {
+    left: 5%;
     width: 15%;
+    
 }
+
+
+
 
 .cadastro-container{
     width: 100%;
@@ -29,6 +34,11 @@
     margin-right: 50px;
     margin-left: 50px;
     
+}
+
+.aviso {
+    color:red;
+    font-size: 14px;
 }
 
 @media only screen and (max-device-width: 900px){
@@ -80,5 +90,12 @@
         height: auto;
     }
 
+    .uf {
+    left: 5%;
+    width: 10%;
+    }
+
+   
+    
 
 }
