@@ -66,7 +66,6 @@ export default function SegundaTela() {
       setLogradouro('')
       setBairro('')
      
-      
       setControleInput(false)
 
     }
@@ -186,7 +185,7 @@ export default function SegundaTela() {
           <TextField 
             required
             value = {nome} onChange={e => setNome(e.target.value)}
-            autoFocus
+            
             margin="dense"
             id="nome"
             label="Nome Completo"
@@ -199,7 +198,7 @@ export default function SegundaTela() {
             required
             value = {telefone} 
             onChange={e => setTelefone(e.target.value)}
-            autoFocus
+            
             margin="dense"           
             name="phone"
             label="Telefone"
@@ -216,8 +215,6 @@ export default function SegundaTela() {
           <TextField className="cep"
             required
             value = {cep} onChange={e => setCep(e.target.value)}
-            
-            autoFocus
             margin="dense"
             id="cep"
             label="CEP"
@@ -238,7 +235,6 @@ export default function SegundaTela() {
               onChange={e => setCidade(e.target.value)}
               disabled={controleInput}
               value = {cidade}
-              autoFocus
               margin="normal"
               id="cidade"
               label="Cidade"
@@ -251,7 +247,6 @@ export default function SegundaTela() {
                 onChange={e => setUF(e.target.value)}
                 disabled={controleInput}
                 value = {uf} 
-                autoFocus
                 margin="normal"
                 id="uf"
                 label="UF"
@@ -266,7 +261,6 @@ export default function SegundaTela() {
               disabled={controleInput}
               onChange={e => setLogradouro(e.target.value)}
               value = {logradouro}
-              autoFocus
               margin="dense"
               id="logradouro"
               label="Logradouro"
@@ -280,7 +274,6 @@ export default function SegundaTela() {
             disabled={controleInput}
             value = {bairro}
             onChange={e => setBairro(e.target.value)}
-              autoFocus
               margin="dense"
               id="bairro"
               label="Bairro"
@@ -293,7 +286,6 @@ export default function SegundaTela() {
             <TextField 
               onChange={e => setNumero(e.target.value)}
               required
-              autoFocus
               margin="dense"
               id="numero"
               label="Número"
@@ -304,7 +296,6 @@ export default function SegundaTela() {
               <TextField className="complemento"
             
               value = {complemento} onChange={e => setComplemento(e.target.value)}
-              autoFocus
               margin="dense"
               id="complemento"
               label="Complemento"
@@ -316,7 +307,6 @@ export default function SegundaTela() {
               <TextField 
               required
               value = {descricao_conhece_mamae_papai} onChange={e => setDescMaePai(e.target.value)}
-              autoFocus
               margin="dense"
               id="descMaePai"
               helperText="Conhece o papai Henrique e a mamãe Karina de onde? *"
