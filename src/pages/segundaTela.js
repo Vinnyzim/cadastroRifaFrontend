@@ -25,20 +25,22 @@ export default function SegundaTela() {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+ 
   const email = localStorage.getItem('email');
   const [nome, setNome] = useState('');
   const [telefone, setTelefone] = useState('');
   const [logradouro, setLogradouro] = useState('');
   const [complemento, setComplemento] = useState('');
-  const [localidade, setLocalidade] = useState('');
+  const [cidade, setCidade] = useState('');
   const [uf, setUF] = useState('');
   const [bairro, setBairro] = useState('');
   const [descricao_conhece_mamae_papai, setDescMaePai] = useState('');
   const [msg_erick, setMsgErick] = useState('');
   const [cep, setCep] = useState('');
+  const [numero, setNumero] = useState('')
+
+  const [controleInput, setControleInput ] = useState(true);
+
 
   const history = useHistory();
   
@@ -49,15 +51,31 @@ export default function SegundaTela() {
 
   axios.get(`https://viacep.com.br/ws/${cep}/json/`).then(res => {
 
-    setLocalidade(res.data.localidade)
+    setCidade(res.data.localidade)
     setUF(res.data.uf)
     setLogradouro(res.data.logradouro)
     setBairro(res.data.bairro)
 
-    console.log(res.data)
+    if(res.data.erro === true) {
+
+      
+
+      alert('Não foi possível encontrar o seu CEP, por favor preencha os campos abaixo!')
+      setCidade('')
+      setUF('')
+      setLogradouro('')
+      setBairro('')
+     
+      
+      setControleInput(false)
+
+    }
+
+    
+
   }).catch(err => {
 
-    alert(err)
+    alert('Digite um CEP válido!')
 
   }) 
    
@@ -72,18 +90,32 @@ export default function SegundaTela() {
     
     
 
-    const data = {email, nome, telefone, logradouro, complemento, localidade, uf, descricao_conhece_mamae_papai, msg_erick}
+    const data = {email, nome, telefone, cep, cidade, uf, logradouro, bairro, numero, complemento, descricao_conhece_mamae_papai, msg_erick}
 
     
+    if (
 
+    data.email !== "", 
+    data.nome !== "", 
+    data.telefone !== "", 
+    data.cep !== "", 
+    data.cidade !== "", 
+    data.uf !== "" ,  
+    data.logradouro !== "",
+    data.bairro !== "",
+    data.numero !== "",
+    data.descricao_conhece_mamae_papai !== ""
+     ) 
     
-
+    {
+      
     try{
 
         const response = await api.post('usuario', data)
 
         if (response.status === 200){
           alert(response.data.Mensagem)
+          
           history.push('/')
         }
 
@@ -93,10 +125,13 @@ export default function SegundaTela() {
     }
     
 
+  } else {
+
+    alert('Algum campo não foi preenchido!')
+  }
     
     
-    
-    handleClose();
+   
   }
 
   
@@ -198,88 +233,98 @@ export default function SegundaTela() {
 
           <Grid>
             
-                <TextField className="city"
-                disabled={true}
-                value = {localidade}
-                autoFocus
-                margin="normal"
-                id="localidade"
-                label="Cidade"
-                type="text"
-                
-              />
+            <TextField className="city"
+              required
+              onChange={e => setCidade(e.target.value)}
+              disabled={controleInput}
+              value = {cidade}
+              autoFocus
+              margin="normal"
+              id="cidade"
+              label="Cidade"
+              type="text"
+            />
               
               
               <TextField className="uf"
-                disabled={true}
+                required
+                onChange={e => setUF(e.target.value)}
+                disabled={controleInput}
                 value = {uf} 
                 autoFocus
                 margin="normal"
                 id="uf"
                 label="UF"
-                type="text"              
+                type="text"
+                inputProps={{maxLength: 2}}            
               />
             
           </Grid>
           
-          <TextField 
-             disabled={true}
-            value = {logradouro}
-            autoFocus
-            margin="dense"
-            id="logradouro"
-            label="Logradouro"
-            helperText= "(caso ganhe o sorteio, o prêmio será entregue nesse endereço)"
-            type="text"
-            fullWidth
-          />
-
-          <TextField 
-           disabled={true}
-           value = {bairro}
-            autoFocus
-            margin="dense"
-            id="bairro"
-            label="Bairro"
-            type="text"
-            
-          />
-
-          <Grid>
-          <TextField 
-            required
-            autoFocus
-            margin="dense"
-            id="numero"
-            label="Número"
-            type="text"
-            
-          />
-          </Grid>
-            <TextField className="complemento"
-          
-            value = {complemento} onChange={e => setComplemento(e.target.value)}
-            autoFocus
-            margin="dense"
-            id="complemento"
-            label="Complemento"
-            type="text"
-            
-          />
-         
+            <TextField 
+              required
+              disabled={controleInput}
+              onChange={e => setLogradouro(e.target.value)}
+              value = {logradouro}
+              autoFocus
+              margin="dense"
+              id="logradouro"
+              label="Logradouro"
+              helperText= "(caso ganhe o sorteio, o prêmio será entregue nesse endereço)"
+              type="text"
+              fullWidth
+            />
 
             <TextField 
             required
-            value = {descricao_conhece_mamae_papai} onChange={e => setDescMaePai(e.target.value)}
-            autoFocus
-            margin="dense"
-            id="descMaePai"
-            helperText="Conhece o papai Henrique e a mamãe Karina de onde?"
-            type="text"
-            fullWidth
-          />
-          <h1></h1>
-         <text className="aviso">Favor verificar se todas as informações estão corretas. <br/>Você só poderá confirmar uma vez!</text>
+            disabled={controleInput}
+            value = {bairro}
+            onChange={e => setBairro(e.target.value)}
+              autoFocus
+              margin="dense"
+              id="bairro"
+              label="Bairro"
+              type="text"
+              inputProps={{maxLength: 55}}  
+              
+            />
+
+            <Grid>
+            <TextField 
+              onChange={e => setNumero(e.target.value)}
+              required
+              autoFocus
+              margin="dense"
+              id="numero"
+              label="Número"
+              type="text"
+              
+            />
+            </Grid>
+              <TextField className="complemento"
+            
+              value = {complemento} onChange={e => setComplemento(e.target.value)}
+              autoFocus
+              margin="dense"
+              id="complemento"
+              label="Complemento"
+              type="text"
+              
+            />
+          
+
+              <TextField 
+              required
+              value = {descricao_conhece_mamae_papai} onChange={e => setDescMaePai(e.target.value)}
+              autoFocus
+              margin="dense"
+              id="descMaePai"
+              helperText="Conhece o papai Henrique e a mamãe Karina de onde? *"
+              type="text"
+              fullWidth
+            />
+            
+          <text className="aviso">Favor verificar se todas as informações estão corretas. <br/>Você só poderá confirmar uma vez!</text>
 
         
         </DialogContent>

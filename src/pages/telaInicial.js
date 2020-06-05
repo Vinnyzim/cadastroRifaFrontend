@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FormDialog() {
   const classes = useStyles();
+
   const [email, setEmail] = useState('');
   
 
@@ -94,8 +95,6 @@ const handleCloseSnackEmailInvalido = (event, reason) => {
           const localEmail = verifyEmail.email
 
           localStorage.setItem('email', localEmail)
-
-          
 
           history.push('/register')
           
